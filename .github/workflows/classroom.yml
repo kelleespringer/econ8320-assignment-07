@@ -1,4 +1,5 @@
 name: GitHub Classroom Workflow
+
 on:
   - push
   - workflow_dispatch
@@ -12,10 +13,10 @@ jobs:
   build:
     name: Autograding
     runs-on: ubuntu-latest
-    if: githum.actor != 'github-actions[bot]'
+    if: githum.actor != 'github-classroom[bot]'
     steps:
       - uses: actions/checkout@v4
-      - actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - run:
