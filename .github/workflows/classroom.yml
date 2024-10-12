@@ -13,7 +13,7 @@ jobs:
   build:
     name: Autograding
     runs-on: ubuntu-latest
-    if: githum.actor != 'github-classroom[bot]'
+    if: github.actor != 'github-classroom[bot]'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install numpy==1.21.0
           pip install -r requirements.txt
-      - name: Run scraping script to generate lego 2019.csv
+      - name: Run scraping script to generate lego2019.csv
         run: python si-exercise.py
 
       - uses: education/autograding@v1
