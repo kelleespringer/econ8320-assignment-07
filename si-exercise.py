@@ -36,7 +36,7 @@ def collectLegoSets(startURL):
             price_text = article.find('dt', string="RRP").find_next_sibling().text
             price = float(re.search(r'(\d+.\d+)(\u20AC)', price_text, re.UNICODE).groups()[0])
             row.append(price)
-        except AttributeError:
+        except:
             row.append(np.nan)
         
         try:
@@ -62,18 +62,21 @@ def collectLegoSets(startURL):
         next_page = soup.find('li', class_="next").a['href']
     except AttributeError:
         next_page = None
-    
+
     if next_page:
         time.sleep(random.uniform(1, 3))
-        next_page_url = f"https://brickset.com/sets/year-2019{next_page}"
+        # Construct the next page URL correctly using f-string formatting
+        next_page_url = f"{startURL}/{next_page}"
+        print(f"Fetching next page: {next_page_url}")  # Debugging output
         next_df = collectLegoSets(next_page_url)
-        if not next_df.empty:
+        if next_df is not None and not next_df.empty: # Check if next_df is not None before accessing attributes
             return pd.concat([lego_df, next_df], axis=0)
     
-    return lego_df
+        return lego_df
 
 startURL = "https://brickset.com/sets/year-2019"
 
 lego2019_df = collectLegoSets(startURL)
+print(f"Total sets scraped: {lego2019_df.shape[0]}")
 
 lego2019_df.to_csv('lego2019.csv', index=False)
