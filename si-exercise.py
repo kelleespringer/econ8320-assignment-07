@@ -11,8 +11,8 @@ import random
 def collectLegoSets(startURL):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Referer': 'https://www.google.com/'
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8', # Fixed indentation
+        'Referer': 'https://www.google.com/'  # Fixed indentation
     }
     
     try:
@@ -65,7 +65,7 @@ def collectLegoSets(startURL):
     
     if next_page:
         time.sleep(random.uniform(1, 3))
-        next_page_url = f"https://brickset.com{next_page}"
+        next_page_url = f"https://brickset.com/sets/year-2019{next_page}"
         next_df = collectLegoSets(next_page_url)
         if not next_df.empty:
             return pd.concat([lego_df, next_df], axis=0)
@@ -74,6 +74,7 @@ def collectLegoSets(startURL):
 
 startURL = "https://brickset.com/sets/year-2019"
 
+lego2019_df = collectLegoSets(startURL)
 print(f"Total sets scraped: {lego2019_df.shape[0]}")
 
 lego2019_df.to_csv('lego2019.csv', index=False)
